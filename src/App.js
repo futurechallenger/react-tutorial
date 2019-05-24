@@ -5,7 +5,7 @@ import logo from "./logo.svg";
 import "./App.css";
 // React.createElement('Square')
 import innerFunc, { Square } from "./Square";
-import changeColorAction from "./actions";
+import changeColorAction, { requestServer } from "./actions";
 
 function tryProps(name) {
   return `hello ${name}`;
@@ -28,11 +28,31 @@ class App extends React.Component {
     });
   };
 
+  handleAsyncAction = () => {
+    const { asyncAction } = this.props;
+    asyncAction && asyncAction();
+  };
+
+  displayStatus = () => {
+    const { res } = this.props;
+
+    const { loading, msg, ret } = res;
+    if (loading === "init") {
+      return "hello";
+    } else if (loading === "done") {
+      return "success";
+    } else if (loading === "failure") {
+      return `failed! message: ${msg}`;
+    } else {
+      return "loading";
+    }
+  };
+
   render() {
-    const { color, changeColorAction } = this.props;
+    const { color, changeColorAction, res } = this.props;
     return (
       <div className="App">
-        {[1, 2, 3].map(v => (
+        {/*[1, 2, 3].map(v => (
           <Square
             key={v}
             name={v}
@@ -41,7 +61,11 @@ class App extends React.Component {
             bgColor={color}
             onChangeColor={changeColorAction}
           />
-        ))}
+        ))*/}
+        <button onClick={this.handleAsyncAction}>Async Action</button>
+        <div>
+          <span>{this.displayStatus()}</span>
+        </div>
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <p>
@@ -72,12 +96,14 @@ class App extends React.Component {
 const mapStateToProps = state => {
   return {
     color: state.color.color,
+    res: state.request
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    changeColorAction: color => dispatch(changeColorAction({ color }))
+    changeColorAction: color => dispatch(changeColorAction({ color })),
+    asyncAction: () => requestServer()(dispatch)
   };
 };
 
@@ -88,4 +114,4 @@ export default connect(
 
 // <App1>
 //  <App color={color}/>>
-//</App1> 
+//</App1>

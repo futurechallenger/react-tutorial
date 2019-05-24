@@ -1,5 +1,6 @@
 import { combineReducers } from "redux";
 import { CHANGE_COLOR } from "../actions";
+import request from './request';
 
 const initState = {
   color: "red"
@@ -23,4 +24,5 @@ function changeColor(state = initState, action = {}) {
 
 export default combineReducers({
   color: changeColor, // result: color: {color: 'red'},
+  request,
 })
