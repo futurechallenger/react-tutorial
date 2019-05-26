@@ -42,7 +42,7 @@ class App extends React.Component {
     } else if (loading === "done") {
       return "success";
     } else if (loading === "failure") {
-      return `failed! message: ${msg}`;
+      return `failed message: ${msg};
     } else {
       return "loading";
     }
