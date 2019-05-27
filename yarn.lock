@@ -4726,6 +4726,11 @@ ini@^1.3.5, ini@~1.3.0:
   resolved "https://registry.yarnpkg.com/ini/-/ini-1.3.5.tgz#eee25f56db1c9ec6085e0c22778083f596abf927"
   integrity sha512-RZY5huIKCMRWDUqZlEi72f/lmXKMvuszcMBduliQ3nnWbx9X/ZBQO7DijMEYS9EhHBb2qacRUMtC7svLwe0lcw==
 
+injectify-js@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/injectify-js/-/injectify-js-0.1.0.tgz#63705d9f69a706f276d4889d58367289048c764e"
+  integrity sha512-HnggywhuAM0JtMnmyU661+EEoHHwh+OvniXMS/fz0MH1nusIWFdWQQlFQXrCqyCP06FatfzqYr2/VwRkQfsbkw==
+
 inquirer@6.2.2:
   version "6.2.2"
   resolved "https://registry.yarnpkg.com/inquirer/-/inquirer-6.2.2.tgz#46941176f65c9eb20804627149b743a218f25406"
