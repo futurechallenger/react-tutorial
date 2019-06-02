@@ -24,7 +24,7 @@ function action(type, payload) {
 }
 
 export function requestServer() {
-  return async dispatch => {
+  return async (dispatch) => {
     dispatch(action(START_REQUEST));
 
     try {

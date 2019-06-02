@@ -42,7 +42,7 @@ class App extends React.Component {
     } else if (loading === "done") {
       return "success";
     } else if (loading === "failure") {
-      return `failed message: ${msg};
+      return `failed message: ${msg}`;
     } else {
       return "loading";
     }
@@ -102,10 +102,16 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    changeColorAction: color => dispatch(changeColorAction({ color })),
+    changeColorAction: (color) => dispatch(changeColorAction({ color })),
     asyncAction: () => requestServer()(dispatch)
   };
 };
+
+// function add(p1) {
+//   return function(p2) {
+//     return p1 + p2;
+//   }
+// }
 
 export default connect(
   mapStateToProps,
