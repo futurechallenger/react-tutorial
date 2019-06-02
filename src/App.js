@@ -20,6 +20,15 @@ class App extends React.Component {
     };
   }
 
+  componentDidMount() {
+    this._worker = new Worker('./workers/someTask.js', {type: 'module'});
+    this._worker.onmessage = (event) => {
+      console.log('===>event from worker', event);
+    };
+
+    this._worker.postMessage("start");
+  }
+
   handleChangeColor = () => {
     console.log("handle change color");
     const currentColor = this.state.bgColor;
