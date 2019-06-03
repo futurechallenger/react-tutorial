@@ -6,6 +6,7 @@ import "./App.css";
 // React.createElement('Square')
 import innerFunc, { Square } from "./Square";
 import changeColorAction, { requestServer } from "./actions";
+import run from "./actions/workerActions";
 
 function tryProps(name) {
   return `hello ${name}`;
@@ -20,14 +21,14 @@ class App extends React.Component {
     };
   }
 
-  componentDidMount() {
-    this._worker = new Worker('./workers/someTask.js', {type: 'module'});
-    this._worker.onmessage = (event) => {
-      console.log('===>event from worker', event);
-    };
+  // componentDidMount() {
+  //   this._worker = new Worker("./workers/someTask.js", { type: "module" });
+  //   this._worker.onmessage = event => {
+  //     console.log("===>event from worker", event);
+  //   };
 
-    this._worker.postMessage("start");
-  }
+  //   this._worker.postMessage("start");
+  // }
 
   handleChangeColor = () => {
     console.log("handle change color");
@@ -42,16 +43,44 @@ class App extends React.Component {
     asyncAction && asyncAction();
   };
 
-  displayStatus = () => {
-    const { res } = this.props;
+  /**
+   * Worker action with redux
+   */
+  handleWorkerAction = () => {
+    const { workerAction } = this.props;
+    workerAction && workerAction("hello");
+  };
 
-    const { loading, msg, ret } = res;
+  /**
+   * Worker with hooks
+   */
+  handleWorkerActionWithHooks = () => {};
+
+  // displayStatus = () => {
+  //   const { res } = this.props;
+
+  //   const { loading, msg, ret } = res;
+  //   if (loading === "init") {
+  //     return "hello";
+  //   } else if (loading === "done") {
+  //     return "success";
+  //   } else if (loading === "failure") {
+  //     return `failed message: ${msg}`;
+  //   } else {
+  //     return "loading";
+  //   }
+  // };
+
+  displayStatusV2 = () => {
+    const { parser } = this.props;
+
+    const { loading} = parser;
     if (loading === "init") {
       return "hello";
     } else if (loading === "done") {
       return "success";
     } else if (loading === "failure") {
-      return `failed message: ${msg}`;
+      return `failed message: `;
     } else {
       return "loading";
     }
@@ -72,8 +101,19 @@ class App extends React.Component {
           />
         ))*/}
         <button onClick={this.handleAsyncAction}>Async Action</button>
+        <button
+          onClick={this.handleWorkerAction}
+          style={{
+            borderWidth: 1,
+            borderColor: "red",
+            padding: 20,
+            margin: 16
+          }}
+        >
+          Worker Action
+        </button>
         <div>
-          <span>{this.displayStatus()}</span>
+          <span>{this.displayStatusV2()}</span>
         </div>
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
@@ -105,14 +145,16 @@ class App extends React.Component {
 const mapStateToProps = state => {
   return {
     color: state.color.color,
-    res: state.request
+    res: state.request,
+    parser: state.parser
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    changeColorAction: (color) => dispatch(changeColorAction({ color })),
-    asyncAction: () => requestServer()(dispatch)
+    changeColorAction: color => dispatch(changeColorAction({ color })),
+    asyncAction: () => requestServer()(dispatch),
+    workerAction: data => run(data)(dispatch)
   };
 };
 

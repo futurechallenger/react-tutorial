@@ -1,4 +1,5 @@
 import fetchServer from "../services";
+import { action } from "./actionUtil";
 
 export const CHANGE_COLOR = "CHANGE_COLOR";
 
@@ -19,12 +20,8 @@ const FAILURE_REQUEST = "FAILURE_REQUEST";
 
 export { START_REQUEST, SUCCESS_REQUEST, FAILURE_REQUEST };
 
-function action(type, payload) {
-  return { type, payload };
-}
-
 export function requestServer() {
-  return async (dispatch) => {
+  return async dispatch => {
     dispatch(action(START_REQUEST));
 
     try {
